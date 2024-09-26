@@ -1,95 +1,50 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
+import "bootstrap/dist/css/bootstrap.min.css";
+import { doLogin } from "../services/web3Services"
+import { useState, useEffect } from "react";
+
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+  const [message, setMessage] = useState(" ");
+
+  useEffect(() => {
+    document.title = "CrypTwitter | Login";
+  }, []);
+
+  function btnLoginClick(){
+    setMessage("Conectando com a MetaMask... Aguarde...")
+    doLogin()
+      .then((wallet) => {
+        setMessage(`Conectado com a carteira: ${wallet}`); 
+      })
+      .catch((err) => {
+        console.error(err);
+        setMessage("Erro ao conectar com a MetaMask. Tente novamente.");
+      });
+  };
+
+  return (
+    <>
+      <div className="container px-4 py-5">
+        <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
+          <div className="col-10 col-sm-8 col-lg-6">
+            <img src="/images/twitterPoster.jpg" className="d-block mx-l-auto img-fluid" width="700" height="500" />
+          </div>
+          <div className="col-lg-6 ">
+            <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">CrypTwitter</h1>
+            <p className="lead">Sua rede social descentralizada.</p>
+            <p className="lead mb-3">Autentique-se com suas carteiras, escreva suas mensagens e saiba o que está acontecendo no mundo aonde você estiver! </p>
+            <div className="d-grid d-md-flex justify-content-md-start">
+                <button type="button" className="btn btn-primary btn-lg px-4 me-md-2" onClick={btnLoginClick}>
+                  <img src="/images/MetaMask_Fox.svg.png" width="64" className="me-3"/>
+                  Conectar com a MetaMask
+                </button>
+            </div>
+            <p className="message">{message}</p>
+          </div>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }
