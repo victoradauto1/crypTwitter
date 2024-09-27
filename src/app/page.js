@@ -2,10 +2,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { doLogin } from "../services/web3Services"
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 
 export default function Home() {
 
+  const { push } = useRouter();
   const [message, setMessage] = useState(" ");
 
   useEffect(() => {
@@ -15,12 +17,12 @@ export default function Home() {
   function btnLoginClick(){
     setMessage("Conectando com a MetaMask... Aguarde...")
     doLogin()
-      .then((wallet) => {
-        setMessage(`Conectado com a carteira: ${wallet}`); 
-      })
+      .then(wallet =>push('/timeline') 
+      )
       .catch((err) => {
-        console.error(err);
+        console.error("Erro ao conectar-se:", err);
         setMessage("Erro ao conectar com a MetaMask. Tente novamente.");
+        console.log(err);
       });
   };
 
