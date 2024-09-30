@@ -77,6 +77,28 @@ body {
   margin-right: 10px;
 }
 
+.tweet_header{
+  display: flex;
+}
+
+.tweet_author_name{
+  font-size: 15px;
+  font-weight: 700;
+  color: #14171a;
+  margin-right: 5px;
+}
+
+.tweet_author_slug{
+  color:#5b7083;
+  font-size: 15px;
+}
+
+.tweet_publish_time{
+  color:#657786;
+  margin-bottom: 5px;
+  font-size: 10px;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
